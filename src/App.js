@@ -21,9 +21,11 @@ async function consulta (tipo,url){
   return await axios({ method: tipo, url: url});
   }
 function App(){
-  const url='https://us-central1-handy-droplet-337317.cloudfunctions.net/pupper';
-  
-  console.log(consulta ("POST",url))
+  fetch("https://us-central1-handy-droplet-337317.cloudfunctions.net/pupper",{
+    method: 'GET',
+    mode: 'no-cors',
+    cache: 'default'
+  }).then((response) => response.json).then((dog) => console.log(dog));
 var resultado="HOLA";
 
 
