@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 //var admin = require("firebase-admin/app");
 import { initializeApp } from 'firebase/app';
 import { getFunctions, httpsCallable } from "firebase/functions";
@@ -21,10 +21,6 @@ const app=initializeApp({
 });
 const functions = getFunctions(app);
 
-//import React from 'react';
-//var cors = require('cors');
-//App.use(cors());
-
 function App(){
   /*cors();
   fetch("https://us-central1-handy-droplet-337317.cloudfunctions.net/pupper",{
@@ -33,22 +29,51 @@ function App(){
     cache: 'default'
   }).then((response) => response.json).then((dog) => console.log(dog));
   */
- const pupper=httpsCallable(functions,'pupper');
- pupper().then(result=>{
-  console.log(result);
- }).catch((error)=>{
-  console.log("ERROR");
- });
-var resultado="HOLA";
+  const url="https://us-central1-handy-droplet-337317.cloudfunctions.net/pupper";
+  const url_Clima="https://us-central1-handy-droplet-337317.cloudfunctions.net/clima?Latitud=-32.94682&Longi=-60.63932";
+  const [todos,setTodos]=useState();
+  const [Datos_Clima,SetDatos]=useState();
 
+const fetchApia =async ()=>{
+    const repuesta=await fetch(url);
+    //console.log(repuesta.status);
+    const json=await repuesta.json();
+    setTodos(json);
+    //console.log(json);
+ }
+ const fetch_Clima =async ()=>{
+  const repuesta_Clima=await fetch(url_Clima);
+  console.log(repuesta_Clima.status);
+  const json_Clima=await repuesta_Clima.json();
+  SetDatos(json_Clima);
+  console.log(json_Clima);
+}
+ useEffect(()=>{
+fetchApia();
+fetch_Clima();
 
-return (
+ },[]);
+
+ var resultado="HOLA";
+  return (
     <div className="App">
       <header className="App-header">
         <title>CLIMA</title>
         <img src={logo} className="App-logo" alt="logo" />
-        <p>          Edit <code>src/App.js</code> Guardar y recargar</p>
-        <p>{resultado}</p>
+        <h2>Subtes</h2>
+        <ul>
+        { !todos ? 'Cargando...' :  <li>{todos["results"].map((elemento,index)=>{
+          return <li>{elemento}</li>
+        })}</li>
+        }
+        </ul>
+        <h2>Clima</h2>
+        <ul>
+        { !Datos_Clima ? 'Cargando...' :  <li>{Datos_Clima["Localidad"]} {Datos_Clima["Temperatura"]}<li>Humedad : {Datos_Clima["Humedad"]}<li>Precion: {Datos_Clima["Presion"]}<li>Viento: {Datos_Clima["Viento"]}<li>Visibilidad: {Datos_Clima["Visibilidad"]}</li></li></li></li></li>
+        
+        }
+        </ul>
+        
       </header>
     </div>
   );
