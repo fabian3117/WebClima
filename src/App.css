@@ -5,8 +5,18 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  
 }
-
+.pastilla{
+text-align: center;
+vertical-align: middle;
+line-height: 28px;
+border-radius: 50%;
+border: 2px solid white;
+color: white;
+height: 30px;
+font-weight: bold;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
