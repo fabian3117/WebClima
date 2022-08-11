@@ -1,11 +1,16 @@
 .App {
   text-align: center;
 }
+@use "@material/card";
+@include card.core-styles;
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
   
+}
+.ul{
+  list-style-image: url("../public/favicon.ico");
 }
 .pastilla{
 text-align: center;

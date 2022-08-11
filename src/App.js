@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Welcome from "./intento.js"
 import Subte from './Subte';
 import Clima from './Clima';
+
 var Lat_def=-32.94682;
 var Long_def=-60.63932;
 function App(){
@@ -20,6 +21,7 @@ const fetchApia =async ()=>{
  }
  const fetch_Clima =async (Lat,Long)=>{
   const url_Clima="https://us-central1-handy-droplet-337317.cloudfunctions.net/clima?Latitud="+Lat+"&Longi="+Long;
+  console.log(url_Clima)
   const repuesta_Clima=await fetch(url_Clima);
   console.log(repuesta_Clima.status);
   const json_Clima=await repuesta_Clima.json();
@@ -51,9 +53,8 @@ function Ubicacion(funcion){
     <div className="App">
       <header className="App-header">
       <title>CLIMA</title>
-      <div align="right">
         <img src={logo} className="App-logo" alt="logo" align="center" />
-        </div>
+        <div className='mdc-mdc-card mdc-card--outlined'>
         <h2>Subtes</h2>
         <ul>
         { !todos ? 'Cargando...' :  <li>{todos["results"].map((elemento,index)=>{
@@ -61,13 +62,16 @@ function Ubicacion(funcion){
         })}</li>
         }
         </ul>
+        </div>
+        <div className='Clima'>
         <h2>Clima</h2>
+        
         <ul>
-        { !Datos_Clima ? 'Cargando...' :  <li>{Datos_Clima["Localidad"]} {Datos_Clima["Temperatura"]}<li>Humedad : {Datos_Clima["Humedad"]}<li>Precion: {Datos_Clima["Presion"]}<li>Viento: {Datos_Clima["Viento"]}<li>Visibilidad: {Datos_Clima["Visibilidad"]}</li></li></li></li></li>
+        { !Datos_Clima ? 'Cargando...' : <div> <li>{Datos_Clima["Localidad"]}</li><li>{Datos_Clima["Temperatura"]}</li><li>Humedad : {Datos_Clima["Humedad"]}</li><li>Precion : {Datos_Clima["Presion"]}</li><li>Viento :{Datos_Clima["Viento"]}</li><li>Visibilidad: {Datos_Clima["Visibilidad"]}</li></div>
         
         }
         </ul>  
-        <p>{Long_def}</p>
+        </div>
       </header>
     </div>
   );
